@@ -34,11 +34,16 @@ using supervised machine learning models.
 ## Project Structure
 
 circuit-delay-prediction/
-├── src/
-│   └── train.py
-├── data/
-├── requirements.txt
-└── README.md
+ src/
+  metrics.py
+  models.py
+  train.py
+  utils.py
+ data/
+  data.csv
+ results/
+ requirements.txt
+ README.md
 
 ## How to Run
 pip install -r requirements.txt  

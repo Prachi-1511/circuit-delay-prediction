@@ -7,7 +7,6 @@ from models import get_gbr_model, get_lr_model
 from metrics import evaluate
 from utils import add_features, plot_actual_vs_pred, ensure_dirs
 
-# ================= CONFIG =================
 DATA_PATH = "data/data.csv"
 
 COL_CLOAD = "CLOAD (pF)"
@@ -18,8 +17,6 @@ COL_DAVG  = "DAVG (ns)"
 COL_VMIN  = "VOUT_MIN (V)"
 
 TARGETS = [COL_TPHL, COL_TPLH, COL_VMIN]
-# =========================================
-
 
 def main():
     ensure_dirs()
@@ -32,7 +29,6 @@ def main():
     for v in corners:
         corner_df = df[df[COL_VMAX] == v].copy()
 
-        # -------- Features --------
         X = corner_df[[COL_CLOAD, "CLOAD_sq", COL_VMAX]]
         idx = corner_df.index.values
 
@@ -43,7 +39,6 @@ def main():
         train_df = corner_df.loc[idx_tr]
         test_df  = corner_df.loc[idx_te]
 
-        # Store predictions for DAVG derivation
         preds_tr = {}
         preds_te = {}
 
@@ -81,7 +76,6 @@ def main():
                     **te_metrics
                 })
 
-                # -------- Cross-validation --------
                 cv = KFold(n_splits=5, shuffle=True, random_state=42)
                 cv_r2 = cross_val_score(
                     model, X, corner_df[target], cv=cv, scoring="r2"
@@ -97,12 +91,10 @@ def main():
                     "MAE": np.nan
                 })
 
-                # -------- Save predictions for DAVG (GBR only) --------
                 if model_name == "GradientBoosting":
                     preds_tr[target] = yhat_tr
                     preds_te[target] = yhat_te
 
-                # -------- Plot --------
                 plot_actual_vs_pred(
                     yte,
                     yhat_te,
@@ -110,7 +102,6 @@ def main():
                     f"results/plots/{model_name}_{target}_V{v}.png"
                 )
 
-        # -------- Derived DAVG (Engineering logic) --------
         if COL_TPHL in preds_tr and COL_TPLH in preds_tr:
             d_tr_true = train_df[COL_DAVG].values
             d_te_true = test_df[COL_DAVG].values

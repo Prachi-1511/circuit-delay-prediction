@@ -5,6 +5,14 @@ Accurate circuit delay estimation using SPICE simulations is computationally exp
 This project explores machine learning models to predict CMOS inverter timing parameters
 across voltage corners, enabling faster early-stage timing analysis.
 
+## Problem Statement
+Given circuit parameters such as capacitive load and supply voltage, predict:
+- Rise Delay
+- Fall Delay
+- Average Delay (DAVG)
+
+using supervised machine learning models.
+
 ## Approach
 - Feature engineering on capacitive load and voltage parameters
 - Baseline Linear Regression vs Gradient Boosting comparison
@@ -14,11 +22,23 @@ across voltage corners, enabling faster early-stage timing analysis.
 
 ## Results
 - Gradient Boosting consistently outperformed Linear Regression
-- Achieved strong R² scores with low RMSE across voltage corners
+- Achieved strong R² scores with RMSE reduced by ~28% compared to linear regression
 - Demonstrated feasibility of ML-based timing estimation
 
 ## Tech Stack
-Python, scikit-learn, pandas, numpy, matplotlib
+- Python  
+- scikit-learn  
+- pandas, numpy  
+- matplotlib
+
+## Project Structure
+
+circuit-delay-prediction/
+├── src/
+│   └── train.py
+├── data/
+├── requirements.txt
+└── README.md
 
 ## How to Run
 pip install -r requirements.txt  
